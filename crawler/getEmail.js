@@ -1,83 +1,115 @@
-// 引入 superagent、cheerio
-var superagent = require("superagent");
-var cheerio = require("cheerio");
+let Imap = require('imap'),
+    inspect = require('util').inspect
+    log = require('winston'),
+    simpleParser = require('mailparser').simpleParser,
+    fs = require('fs');
 
-// 登陆 url 、目标 url
-var url = {
-    url: "http://www.zhihu.com/",
-    login_url: "http://www.zhihu.com/login/email",
-    target_url: "https://www.zhihu.com/collections"
+const imap = new Imap({
+    user: 'justfordraw@163.com',
+    password: 'xxx',
+    host: 'imap.163.com',
+    port: 993,
+    tls: true
+});
+
+
+async function parse_email(body) {
+    let parsed = simpleParser(body);
+    return parsed;
 };
 
-
-// 浏览器请求报文头部部分信息
-var browserMsg = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36",
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-};
-
-
-var cookie;
-
-
-// post 参数信息，其中，还差先前分析的 _xsrf 信息
-var loginMsg = {
-    password: "xxxx ",
-    remember_me: true,
-    email: "xxxxx"
-};
-
-
-// 获取 _xrsf 值
-function getXrsf() {
-    superagent.get(url.url).end(function (err, res) {
-        if (!err) {
-            var $ = cheerio.load(res.text);
-            loginMsg._xsrf = $('[name=_xsrf]').attr('value');
-        } else
-            console.dir(err);
-
-    });
+function openInbox(cb) {
+    imap.openBox('INBOX', true, cb);
 }
 
-
-// 发送登陆请求，获取 cookie 信息
-function getLoginCookie() {
-    //  首先，需在 set 方法中设置请求报文中参数，以性器官免服务器端有针对非浏览器请求做相关处理
-    //  send 方法中设置 post 请求中需提交的参数
-    //  redirects 方法调用，其中参数为 0 ，为了避免在用户登陆成功后，引起的页面重新刷新，从而无法获取 cookie
-    superagent.post(url.login_url).set(browserMsg).send(loginMsg).redirects(0).end(function (err, response) {
-        if (!err) {
-            cookie = response.headers["set-cookie"];
-            console.dir(cookie);
-        } else
-
-            console.dir(err);
-    });
-}
-
-// 根据 cookie ，获取 target 页面关注信息
-// 通过分析可知，仅取出 z_c0 的 cookie 即可，而 getLoginCookie 方法返回为一个 cookie 数组，稍做处理即可
-function getFollower() {
-    superagent.get(url.target_url).set("Cookie", cookie).set(browserMsg).end(function (err, response) {
-        if (err) {
-            console.log(err);
-        } else {
-
-            var $ = cheerio.load(response.text);
-
-            // 此处，同样利用 F12 开发者工具，分析页面 Dom 结构，利用 cheerio 模块匹配元素
-            var array = $('#zh-favlist-following-wrap .zm-item');
-            console.log(" 收藏夹标题 " + " " + " 收藏人数");
-            if (array && array.length > 0) {
-                array.each(function () {
-                    console.log($(this).find('.zm-item-title>a').text() + " " + ($(this).find('.zg-num').text() ? $(this).find('.zg-num').text() : "0"));
-                    //$(this).find('.zm-item-title>a').text();
-                    //$(this).find('.zg-num').text();
-
+imap.once('ready', function () {
+    openInbox(function (err, box) {
+        if (err) throw err;
+        imap.search(['UNSEEN', ['SINCE', 'Nov 7, 2019']], function (err, results) {
+            if (err) throw err;
+            var f = imap.fetch(results, {
+                bodies: ['TEXT'],
+                struct: true
+            });
+            f.on('message', function (msg, seqno) {
+                console.log('Message #%d', seqno);
+                var prefix = '(#' + seqno + ') ';
+                console.log(msg)
+                let arr = [];
+                msg.on('body', function (stream, info) {
+                    var buffer = '';
+                    stream.on('data', function(chunk) {
+                        buffer += chunk.toString('utf8');
+                    });
+                    stream.once('end', function() {
+                        console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
+                    });
+                    // arr.push({stream});
+                    // stream.pipe(fs.createWriteStream('msg-' + seqno + '-body.txt'));
+                    // console.log(prefix + 'Body');
+                    // simpleParser(stream, {
+                    //     skipImageLinks: true
+                    // }, (err, parsed) => {
+                    //     // fs.wr
+                    //     // parsed.pipe(fs.createWriteStream('msg-' + seqno + '-body.txt'));
+                    //     // console.log(parsed);
+                    // });
                 });
-            }
+                msg.once('attributes', function (attrs) {
+                    fs.writeFileSync('res.js', inspect(attrs, false, 8));
+                    // stream.pipe(fs.createWriteStream('msg-' + seqno + '-body.txt'));
+                    // console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+                });
+                msg.once('end', function () {
+                    console.log(arr)
+                    fs.writeFileSync('res.js', arr);
+                    // console.log(arr)
+                    console.log(prefix + 'Finished');
+                });
+            });
+            // f.on('message', processMessage)
+            f.once('error', function (err) {
+                console.log('Fetch error: ' + err);
+            });
+            f.once('end', function () {
+                console.log('Done fetching all messages!');
+                imap.end();
+            });
+        });
+    });
+});
 
-        }
+function processMessage(msg, seqno) {
+    console.log('Processing msg #' + seqno);
+
+    var parser = new MailParser();
+    parser.on('headers', function (headers) {
+        console.log('Header: ' + JSON.stringify(headers));
+    });
+    parser.on('end', function (msg) {
+        console.log('From: ' + msg.from);
+        console.log('Subject: ' + msg.subject);
+        console.log('Text: ' + msg.text);
+        console.log('Html: ' + msg.html);
+    });
+
+    msg.on('body', function (stream) {
+        stream.on('data', function (chunk) {
+            parser.write(chunk.toString('utf8'));
+        });
+    });
+    msg.once('end', function () {
+        console.log('Finished msg #' + seqno);
+        parser.end();
     });
 }
+
+imap.once('error', function (err) {
+    console.log(err);
+});
+
+imap.once('end', function () {
+    console.log('Connection ended');
+});
+
+imap.connect();

@@ -22,8 +22,12 @@
     "parcel-bundler": "^1.12.3"
   },
   "dependencies": {
+    "Base64": "^1.1.0",
     "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",
-    "superagent": "^5.1.0"
+    "imap": "^0.8.19",
+    "mailparser": "^2.7.6",
+    "superagent": "^5.1.0",
+    "winston": "^3.2.1"
   }
 }
