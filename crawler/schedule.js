@@ -9,5 +9,12 @@ const scheduleCronstyle = () => {
         })
     });
 }
-
+// fromEmail: '690372513@qq.com',
+// nickName: 'suedar',
+// x: 'x',
+// y: ' y',
+// color: '#ccc'
+getEmail(arr => {
+    console.log(arr)
+})
 scheduleCronstyle();

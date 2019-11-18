@@ -2,3 +2,4 @@ node_modules
 yarn-error.log
 .cache
 crawler/getEmail.js
+.DS_Store
