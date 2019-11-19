@@ -10,8 +10,8 @@
                 </div>
             </template>
         </div>
-        <div v-else>
-            我的肚子🈳️空空🈳️
+        <div v-else class="empty">
+            我的肚子 空 空
         </div>
     </div>
 </template>
@@ -38,8 +38,18 @@ export default {
     grid-area: point-msg;
     place-self: center center;
     width: 200px;
-    height: 100px;
-    background-color: #ccc;
+    // height: 100px;
+    // background-color: #ccc;
+    transition: 1s all linear;
+    border-radius: 20px;
     margin: 0 20px;
+    padding: 20px;
+    border: 1px solid #909399;
+    &:hover {
+        border-color: #606266;
+    }
+    .empty {
+        text-align: center;
+    }
 }
 </style>

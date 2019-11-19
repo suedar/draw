@@ -40,7 +40,6 @@ export default Vue.extend({
     // overflow: hidden;
     // margin: 0 auto;
     // position: relative;
-    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;

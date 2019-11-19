@@ -2,8 +2,8 @@
  * @file:
  * @author: suedar(690372513@qq.com)
  * @Date: 2019-11-18 15:12:51
- * @LastEditors: suedar
- * @LastEditTime: 2019-11-19 15:08:29
+ * @LastEditors: sunchao
+ * @LastEditTime: 2019-11-19 19:12:52
  */
 
 import { baseUrl } from './env'
@@ -17,7 +17,6 @@ export default async(url = '', data = {}, type = 'GET') => {
         Object.keys(data).forEach(key => {
             dataStr += key + '=' + data[key] + '&';
         })
-
         if (dataStr !== '') {
             dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
             url = url + '?' + dataStr;
