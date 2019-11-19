@@ -1,19 +1,43 @@
+.point-content[data-v-1c5ada] {
+  grid-area: point-content;
+}
+.point-content header[data-v-1c5ada] {
+  text-align: center;
+  margin: 10px 0;
+  color: #2c3e50;
+}
+.point-content .content[data-v-1c5ada] {
+  display: grid;
+  grid-template-columns: repeat(50, 10px);
+  grid-template-rows: repeat(50, 10px);
+}
+.point-content .content div[data-v-1c5ada] {
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+}
+.point-content .content .draw-item[data-v-1c5ada]:hover {
+  border: 1px solid white;
+}
+.point-msg[data-v-ea0b55] {
+  grid-area: point-msg;
+  place-self: center center;
+  width: 200px;
+  height: 100px;
+  background-color: #ccc;
+  margin: 0 20px;
+}
+.statistics[data-v-75f2f8] {
+  grid-area: statistics;
+}
 .draw[data-v-494b58] {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.draw .draw-content header[data-v-494b58] {
-  text-align: center;
-  margin: 10px 0;
-}
-.draw .draw-content .content[data-v-494b58] {
+.draw .content[data-v-494b58] {
   display: grid;
-  grid-template-columns: repeat(50, 10px);
-  grid-template-rows: repeat(50, 10px);
-}
-.draw .draw-content .content div[data-v-494b58] {
-  width: 10px;
-  height: 10px;
+  grid-template-areas: "point-content point-content point-msg" "point-content point-content statistics";
 }

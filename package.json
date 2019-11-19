@@ -34,9 +34,13 @@
     "sass": "^1.23.3",
     "superagent": "^5.1.0",
     "typescript": "^3.7.2",
+    "underscore": "^1.9.1",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.4",
     "vue-template-compiler": "^2.6.10",
     "winston": "^3.2.1"
-  }
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ]
 }
