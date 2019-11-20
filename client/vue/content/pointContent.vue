@@ -65,7 +65,7 @@ export default {
             }, item);
             console.log(obj)
             this.$emit('update:pointMsg', obj);
-        }, 0),
+        }, 50),
         onMouseOut() {
             console.log('bye');
             this.$emit('update:pointMsg', null);

@@ -8542,7 +8542,122 @@ if (inBrowser) {
 
 var _default = Vue;
 exports.default = _default;
-},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{}],"config/env.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.baseUrl = void 0;
+
+/**
+ * @file:
+ * @author: suedar(690372513@qq.com)
+ * @Date: 2019-11-18 15:12:51
+ * @LastEditors: suedar
+ * @LastEditTime: 2019-11-19 11:40:49
+ */
+let baseUrl = '';
+exports.baseUrl = baseUrl;
+
+if ("development" === 'development') {
+  exports.baseUrl = baseUrl = 'https://www.easy-mock.com/mock/5dd251216d497660c3b63c7d/draw';
+} else if ("development" === 'production') {}
+},{}],"config/fetch.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _env = require("./env");
+
+/**
+ * @file:
+ * @author: suedar(690372513@qq.com)
+ * @Date: 2019-11-18 15:12:51
+ * @LastEditors: sunchao
+ * @LastEditTime: 2019-11-19 19:12:52
+ */
+var _default = async (url = '', data = {}, type = 'GET') => {
+  type = type.toUpperCase();
+  url = _env.baseUrl + url;
+
+  if (type === 'GET') {
+    let dataStr = ''; // 数据拼接字符串
+
+    Object.keys(data).forEach(key => {
+      dataStr += key + '=' + data[key] + '&';
+    });
+
+    if (dataStr !== '') {
+      dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
+      url = url + '?' + dataStr;
+    }
+  }
+
+  let headers = new Headers();
+  headers.append('content-type', 'application/json');
+  headers.append('Access-Control-Allow-Origin', '*'); // let param = {
+  //     credentials: 'include',
+  //     mode: 'cors',
+  //     headers
+  // };
+  // if (type === 'POST') {
+  //     param = Object.assign(param, {
+  //         method: 'post',
+  //         body: data
+  //     });
+  // }
+  // {
+  //     data: [data],
+  //     code: [code],
+  //     message: [message]
+  // }
+
+  try {
+    const response = await fetch(url);
+    const responseJson = await response.json();
+
+    if (responseJson.code === 200) {
+      return responseJson.data;
+    } else {
+      throw new Error(`Opps! Error occured. Error code: ${responseJson.code}. Error msssage: ${responseJson.message}.`);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.default = _default;
+},{"./env":"config/env.js"}],"api/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getPreview = exports.getDraw = void 0;
+
+var _fetch = _interopRequireDefault(require("../config/fetch"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @file:
+ * @author: suedar(690372513@qq.com)
+ * @Date: 2019-11-18 15:12:51
+ * @LastEditors: sunchao
+ * @LastEditTime: 2019-11-20 21:44:21
+ */
+const getDraw = () => (0, _fetch.default)('/draw');
+
+exports.getDraw = getDraw;
+
+const getPreview = params => (0, _fetch.default)('/preview', params, 'POST');
+
+exports.getPreview = getPreview;
+},{"../config/fetch":"config/fetch.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -8885,12 +9000,188 @@ function patchScopedSlots (instance) {
 }
 
 },{}],"vue/preview/carousel.vue":[function(require,module,exports) {
-"use strict"; // import { getPreview, getDraw } from '../api/index';
+"use strict";
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function () {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) try {
+      if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+      if (y = 0, t) op = [op[0] & 2, t.value];
+
+      switch (op[0]) {
+        case 0:
+        case 1:
+          t = op;
+          break;
+
+        case 4:
+          _.label++;
+          return {
+            value: op[1],
+            done: false
+          };
+
+        case 5:
+          _.label++;
+          y = op[1];
+          op = [0];
+          continue;
+
+        case 7:
+          op = _.ops.pop();
+
+          _.trys.pop();
+
+          continue;
+
+        default:
+          if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+            _ = 0;
+            continue;
+          }
+
+          if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+            _.label = op[1];
+            break;
+          }
+
+          if (op[0] === 6 && _.label < t[1]) {
+            _.label = t[1];
+            t = op;
+            break;
+          }
+
+          if (t && _.label < t[2]) {
+            _.label = t[2];
+
+            _.ops.push(op);
+
+            break;
+          }
+
+          if (t[2]) _.ops.pop();
+
+          _.trys.pop();
+
+          continue;
+      }
+
+      op = body.call(thisArg, _);
+    } catch (e) {
+      op = [6, e];
+      y = 0;
+    } finally {
+      f = t = 0;
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {};
+
+var index_1 = require("../../api/index");
+
+exports.default = {
+  data: function () {
+    return {
+      params: {
+        pageSize: 30,
+        pageIndex: 0
+      }
+    };
+  },
+  methods: {
+    queryPreview: function () {
+      return __awaiter(this, void 0, void 0, function () {
+        var params, res;
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              params = this.params;
+              return [4
+              /*yield*/
+              , index_1.getPreview(params)];
+
+            case 1:
+              res = _a.sent();
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
+    }
+  },
+  created: function () {}
+};
         var $6ea1f1 = exports.default || module.exports;
       
       if (typeof $6ea1f1 === 'function') {
@@ -8903,18 +9194,40 @@ exports.default = {};
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "result" }, [
-      _c("header", [_vm._v("结果")])
+  return _c("div", { staticClass: "result" }, [
+    _c("header", [_vm._v("结果")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "content" }, [
+      _c("div", { staticClass: "fast-prev" }, [
+        _vm._v("\n            <<\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "slow-prev" }, [
+        _vm._v("\n            <\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "display" }, [
+        _c(
+          "ul",
+          { staticClass: "wrapper" },
+          _vm._l(_vm.content, function(item) {
+            return _c("li", { key: item.id, staticClass: "item" })
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "slow-next" }, [
+        _vm._v("\n            >\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "fast-next" }, [
+        _vm._v("\n            >>\n        ")
+      ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
           return {
@@ -8947,7 +9260,7 @@ render._withStripped = true
       
       }
     })();
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"../node_modules/underscore/underscore.js":[function(require,module,exports) {
+},{"../../api/index":"api/index.js","_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"../node_modules/underscore/underscore.js":[function(require,module,exports) {
 var global = arguments[3];
 var define;
 //     Underscore.js 1.9.1
@@ -10643,122 +10956,7 @@ var define;
   }
 }());
 
-},{}],"config/env.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.baseUrl = void 0;
-
-/**
- * @file:
- * @author: suedar(690372513@qq.com)
- * @Date: 2019-11-18 15:12:51
- * @LastEditors: suedar
- * @LastEditTime: 2019-11-19 11:40:49
- */
-let baseUrl = '';
-exports.baseUrl = baseUrl;
-
-if ("development" === 'development') {
-  exports.baseUrl = baseUrl = 'https://www.easy-mock.com/mock/5dd251216d497660c3b63c7d/draw';
-} else if ("development" === 'production') {}
-},{}],"config/fetch.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _env = require("./env");
-
-/**
- * @file:
- * @author: suedar(690372513@qq.com)
- * @Date: 2019-11-18 15:12:51
- * @LastEditors: sunchao
- * @LastEditTime: 2019-11-19 15:08:29
- */
-var _default = async (url = '', data = {}, type = 'GET') => {
-  type = type.toUpperCase();
-  url = _env.baseUrl + url;
-
-  if (type === 'GET') {
-    let dataStr = ''; // 数据拼接字符串
-
-    Object.keys(data).forEach(key => {
-      dataStr += key + '=' + data[key] + '&';
-    });
-
-    if (dataStr !== '') {
-      dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
-      url = url + '?' + dataStr;
-    }
-  }
-
-  let headers = new Headers();
-  headers.append('content-type', 'application/json');
-  headers.append('Access-Control-Allow-Origin', '*'); // let param = {
-  //     credentials: 'include',
-  //     mode: 'cors',
-  //     headers
-  // };
-  // if (type === 'POST') {
-  //     param = Object.assign(param, {
-  //         method: 'post',
-  //         body: data
-  //     });
-  // }
-  // {
-  //     data: [data],
-  //     code: [code],
-  //     message: [message]
-  // }
-
-  try {
-    const response = await fetch(url);
-    const responseJson = await response.json();
-
-    if (responseJson.code === 200) {
-      return responseJson.data;
-    } else {
-      throw new Error(`Opps! Error occured. Error code: ${responseJson.code}. Error msssage: ${responseJson.message}.`);
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-exports.default = _default;
-},{"./env":"config/env.js"}],"api/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getPreview = exports.getDraw = void 0;
-
-var _fetch = _interopRequireDefault(require("../config/fetch"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @file:
- * @author: suedar(690372513@qq.com)
- * @Date: 2019-11-18 15:12:51
- * @LastEditors: sunchao
- * @LastEditTime: 2019-11-19 11:43:11
- */
-const getDraw = () => (0, _fetch.default)('/draw');
-
-exports.getDraw = getDraw;
-
-const getPreview = () => (0, _fetch.default)('/preview');
-
-exports.getPreview = getPreview;
-},{"../config/fetch":"config/fetch.js"}],"vue/content/pointContent.vue":[function(require,module,exports) {
+},{}],"vue/content/pointContent.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10847,7 +11045,7 @@ var _default = {
       }, item);
       console.log(obj);
       this.$emit('update:pointMsg', obj);
-    }, 0),
+    }, 50),
 
     onMouseOut() {
       console.log('bye');
@@ -10958,7 +11156,20 @@ exports.default = {
     }
   },
   data: function () {
-    return {};
+    return {// pointMsg: {
+      //     color: "black",
+      //     from: [
+      //         {color: "blue",
+      //         owner: "suedar(690372513@qq.com)"},
+      //         {color: "black",
+      //         owner: "suedar(6130372513@qq.com)"},
+      //         {color: "black",
+      //         owner: "suedar(6130372513@qq.com)"}
+      //     ],
+      //     x: 40,
+      //     y: 15
+      // }
+    };
   }
 };
         var $ea0b55 = exports.default || module.exports;
@@ -10974,31 +11185,58 @@ exports.default = {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "point-msg" }, [
-    _vm.hasContent
-      ? _c(
-          "div",
-          [
-            _c("div", [_vm._v("x: " + _vm._s(_vm.pointMsg.x))]),
-            _vm._v(" "),
-            _c("div", [_vm._v("y: " + _vm._s(_vm.pointMsg.y))]),
-            _vm._v(" "),
-            _vm.pointMsg.from
-              ? _vm._l(_vm.pointMsg.from, function(item) {
-                  return _c("div", { key: item.id }, [
-                    _c("span", { staticClass: "owner" }, [
-                      _vm._v("owner: " + _vm._s(item.owner))
+    _c(
+      "div",
+      { staticClass: "container" },
+      [
+        _vm.hasContent
+          ? [
+              _c("div", { staticClass: "center" }, [
+                _c("span", { staticClass: "big-label label" }, [
+                  _vm._v("x : ")
+                ]),
+                _vm._v(_vm._s(_vm.pointMsg.x) + "\n                "),
+                _c("span", { staticClass: "big-label label" }, [
+                  _vm._v("y : ")
+                ]),
+                _vm._v(_vm._s(_vm.pointMsg.y) + "\n            ")
+              ]),
+              _vm._v(" "),
+              _vm.pointMsg.from
+                ? [
+                    _c("div", { staticClass: "big-label label" }, [
+                      _vm._v("owner : ")
                     ]),
                     _vm._v(" "),
-                    _c("span", { staticClass: "color" }, [
-                      _vm._v("color: " + _vm._s(item.color))
-                    ])
-                  ])
-                })
-              : _vm._e()
-          ],
-          2
-        )
-      : _c("div", [_vm._v("\n        我的肚子🈳️空空🈳️\n    ")])
+                    _vm._l(_vm.pointMsg.from, function(item) {
+                      return _c("div", { key: item.id, staticClass: "from" }, [
+                        _c("div", { staticClass: "owner" }, [
+                          _vm._v(_vm._s(item.owner))
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "color" }, [
+                          _c("span", { staticClass: "label" }, [
+                            _vm._v("color : ")
+                          ]),
+                          _c("i", {
+                            staticClass: "cube",
+                            style: { backgroundColor: item.color }
+                          }),
+                          _vm._v(_vm._s(item.color))
+                        ])
+                      ])
+                    })
+                  ]
+                : _vm._e()
+            ]
+          : [
+              _c("div", { staticClass: "empty" }, [
+                _vm._v("\n                我的肚子 空 空\n            ")
+              ])
+            ]
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = []
@@ -11215,7 +11453,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @author: suedar(690372513@qq.com)
  * @Date: 2019-11-18 15:12:51
  * @LastEditors: sunchao
- * @LastEditTime: 2019-11-19 11:41:43
+ * @LastEditTime: 2019-11-19 19:11:58
  */
 new _vue.default(_app.default).$mount('#app');
 },{"vue":"../node_modules/vue/dist/vue.runtime.esm.js","../vue/app.vue":"vue/app.vue"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -11246,7 +11484,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58226" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53745" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

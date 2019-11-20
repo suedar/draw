@@ -1,3 +1,6 @@
+.result[data-v-6ea1f1] {
+  margin-top: 15px;
+}
 .point-content[data-v-1c5ada] {
   grid-area: point-content;
 }
@@ -22,16 +25,60 @@
 .point-msg[data-v-ea0b55] {
   grid-area: point-msg;
   place-self: center center;
-  width: 200px;
-  height: 100px;
-  background-color: #ccc;
-  margin: 0 20px;
+  height: 290px;
+  display: flex;
+  align-items: center;
+}
+.point-msg .container[data-v-ea0b55] {
+  width: 180px;
+  max-height: 270px;
+  overflow-y: scroll;
+  transition: 1s all linear;
+  border-radius: 20px;
+  margin: 0 80px;
+  padding: 18px 30px;
+  border: 1px solid #ebebeb;
+  font-size: 14px;
+  color: #606266;
+}
+.point-msg .container > div + div[data-v-ea0b55] {
+  padding: 2px 0;
+}
+.point-msg .container .center[data-v-ea0b55] {
+  text-align: center;
+}
+.point-msg .container .center .label + .label[data-v-ea0b55] {
+  margin-left: 15px;
+}
+.point-msg .container .label[data-v-ea0b55] {
+  margin-right: 5px;
+  color: #909399;
+}
+.point-msg .container .big-label[data-v-ea0b55] {
+  font-weight: 600;
+}
+.point-msg .container[data-v-ea0b55]:hover {
+  border-color: #606266;
+}
+.point-msg .container .empty[data-v-ea0b55] {
+  text-align: center;
+}
+.point-msg .container .from + .from[data-v-ea0b55] {
+  margin-top: 5px;
+  border-top: 1px solid #ebebeb;
+}
+.point-msg .container .from .cube[data-v-ea0b55] {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  line-height: 8px;
+  margin-right: 3px;
+  border: 1px solid #f2f2f2;
 }
 .statistics[data-v-75f2f8] {
   grid-area: statistics;
 }
 .draw[data-v-494b58] {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
