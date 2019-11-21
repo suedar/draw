@@ -9,4 +9,4 @@
 import fetch from '../config/fetch'
 
 export const getDraw = () => fetch('/draw');
-export const getPreview = params => fetch('/preview', params, 'POST');
+export const getPreview = params => fetch('/preview', params);

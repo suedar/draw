@@ -3,7 +3,7 @@
  * @author: suedar(690372513@qq.com)
  * @Date: 2019-11-18 15:12:51
  * @LastEditors: sunchao
- * @LastEditTime: 2019-11-19 19:12:52
+ * @LastEditTime: 2019-11-21 17:31:54
  */
 
 import { baseUrl } from './env'
@@ -27,18 +27,17 @@ export default async(url = '', data = {}, type = 'GET') => {
     headers.append('content-type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
 
-    // let param = {
-    //     credentials: 'include',
-    //     mode: 'cors',
-    //     headers
-    // };
+    let param = {
+        headers,
+        method: 'GET'
+    };
 
-    // if (type === 'POST') {
-    //     param = Object.assign(param, {
-    //         method: 'post',
-    //         body: data
-    //     });
-    // }
+    if (type === 'POST') {
+        param = Object.assign(param, {
+            method: 'POST',
+            body: data
+        });
+    }
     // {
     //     data: [data],
     //     code: [code],
