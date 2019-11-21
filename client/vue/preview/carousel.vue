@@ -11,7 +11,8 @@
             <div class="display">
                 <ul class="wrapper">
                     <li class="item" v-for="item in content" :key="item.id">
-                        <!-- <img src="" alt=""> -->
+                        <img :src="item.url" :alt="item.createTime">
+                        <span>{{item.createTime}}</span>
                     </li>
                 </ul>
             </div>
@@ -27,28 +28,102 @@
 
 <script lang="ts">
 import { getPreview } from '../../api/index';
+
 export default {
     data() {
         return {
             params: {
                 pageSize: 30,
                 pageIndex: 0
-            }
+            },
+            content: []
         }
     },
     methods: {
         async queryPreview() {
             const { params } = this;
             const res = await getPreview(params);
+            this.content = res;
         }
     },
     created() {
-
+        this.queryPreview();
     }
 }
 </script>
 <style lang="scss" scoped>
 .result {
-    margin-top: 15px;
+    margin-top: 30px;
+    header {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .content {
+        display: flex;
+        align-items: center;
+        padding: 10px 0 6px;
+        position: relative;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0px;
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(to right, #fff, #fff 3%, #e8b90c, #fff 97%, #fff);
+        }
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(to right, #fff, #fff 2%, #e8b90c, #fff 98%, #fff);
+        }
+        > div {
+            &:first-of-type, &:nth-of-type(2), &:last-of-type, &:nth-last-of-type(2) {
+                text-align: center;
+                margin: 0 5px 22px;
+                font-size: 12px;
+                border: 1px solid #ccc;
+                padding: 4px;
+                border-radius: 50%;
+                background: #f4f4f5;
+                color: #ccc;
+                font-weight: 800;
+                &:hover {
+                    color: #e8b90c;
+                    border-color: #e8b90c;
+                    cursor: pointer;
+                }
+            }
+            &:nth-of-type(2), &:nth-last-of-type(2) {
+                padding: 3px 7px;
+            }
+        }
+        .display {
+            width: 550px;
+            overflow: hidden;
+            margin: 0 20px;
+            .wrapper {
+                display: flex;
+                align-items: center;
+                padding-left: 0px;
+                > div {
+                    flex: 1;
+                }
+                .item {
+                    padding: 0 5px;
+                    text-align: center;
+                    img {
+                        width: 100px;
+                    }
+                    span {
+                        color: #606266;
+                        font-size: 10px;
+                    }
+                }
+            }
+        }
+    }
 }
 </style>

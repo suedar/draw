@@ -8554,14 +8554,15 @@ exports.baseUrl = void 0;
  * @file:
  * @author: suedar(690372513@qq.com)
  * @Date: 2019-11-18 15:12:51
- * @LastEditors: suedar
- * @LastEditTime: 2019-11-19 11:40:49
+ * @LastEditors: sunchao
+ * @LastEditTime: 2019-11-21 17:47:49
  */
 let baseUrl = '';
 exports.baseUrl = baseUrl;
 
 if ("development" === 'development') {
-  exports.baseUrl = baseUrl = 'https://www.easy-mock.com/mock/5dd251216d497660c3b63c7d/draw';
+  // baseUrl = 'https://www.easy-mock.com/mock/5dd251216d497660c3b63c7d/draw';
+  exports.baseUrl = baseUrl = 'http://localhost:9092';
 } else if ("development" === 'production') {}
 },{}],"config/fetch.js":[function(require,module,exports) {
 "use strict";
@@ -8578,7 +8579,7 @@ var _env = require("./env");
  * @author: suedar(690372513@qq.com)
  * @Date: 2019-11-18 15:12:51
  * @LastEditors: sunchao
- * @LastEditTime: 2019-11-19 19:12:52
+ * @LastEditTime: 2019-11-21 17:31:54
  */
 var _default = async (url = '', data = {}, type = 'GET') => {
   type = type.toUpperCase();
@@ -8599,22 +8600,23 @@ var _default = async (url = '', data = {}, type = 'GET') => {
 
   let headers = new Headers();
   headers.append('content-type', 'application/json');
-  headers.append('Access-Control-Allow-Origin', '*'); // let param = {
-  //     credentials: 'include',
-  //     mode: 'cors',
-  //     headers
-  // };
-  // if (type === 'POST') {
-  //     param = Object.assign(param, {
-  //         method: 'post',
-  //         body: data
-  //     });
-  // }
-  // {
+  headers.append('Access-Control-Allow-Origin', '*');
+  let param = {
+    headers,
+    method: 'GET'
+  };
+
+  if (type === 'POST') {
+    param = Object.assign(param, {
+      method: 'POST',
+      body: data
+    });
+  } // {
   //     data: [data],
   //     code: [code],
   //     message: [message]
   // }
+
 
   try {
     const response = await fetch(url);
@@ -8654,7 +8656,7 @@ const getDraw = () => (0, _fetch.default)('/draw');
 
 exports.getDraw = getDraw;
 
-const getPreview = params => (0, _fetch.default)('/preview', params, 'POST');
+const getPreview = params => (0, _fetch.default)('/preview', params);
 
 exports.getPreview = getPreview;
 },{"../config/fetch":"config/fetch.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
@@ -9155,7 +9157,8 @@ exports.default = {
       params: {
         pageSize: 30,
         pageIndex: 0
-      }
+      },
+      content: []
     };
   },
   methods: {
@@ -9172,6 +9175,7 @@ exports.default = {
 
             case 1:
               res = _a.sent();
+              this.content = res;
               return [2
               /*return*/
               ];
@@ -9180,7 +9184,9 @@ exports.default = {
       });
     }
   },
-  created: function () {}
+  created: function () {
+    this.queryPreview();
+  }
 };
         var $6ea1f1 = exports.default || module.exports;
       
@@ -9211,7 +9217,11 @@ exports.default = {
           "ul",
           { staticClass: "wrapper" },
           _vm._l(_vm.content, function(item) {
-            return _c("li", { key: item.id, staticClass: "item" })
+            return _c("li", { key: item.id, staticClass: "item" }, [
+              _c("img", { attrs: { src: item.url, alt: item.createTime } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(item.createTime))])
+            ])
           }),
           0
         )
@@ -11484,7 +11494,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53745" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55678" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

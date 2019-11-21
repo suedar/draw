@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel client/index.html",
-    "build": "parcel build <your entry file>"
+    "build": "parcel build <your entry file>",
+    "mock": "json-server client/mock/db.json --port 9092",
+    "mockdev": "npm run mock & npm run dev"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",
     "imap": "^0.8.19",
+    "json-server": "^0.15.1",
     "libmime": "^4.2.1",
     "mailparser": "^2.7.6",
     "mime-lib": "^0.5.3",
