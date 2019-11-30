@@ -63,21 +63,18 @@ export default {
         align-items: center;
         padding: 10px 0 6px;
         position: relative;
-        &::before {
+        &::before, &::after {
             content: '';
             position: absolute;
-            top: 0px;
             height: 1px;
             width: 100%;
             background: linear-gradient(to right, #fff, #fff 3%, #e8b90c, #fff 97%, #fff);
         }
+        &::before {
+            top: 0px;
+        }
         &::after {
-            content: '';
-            position: absolute;
             bottom: 0px;
-            height: 1px;
-            width: 100%;
-            background: linear-gradient(to right, #fff, #fff 2%, #e8b90c, #fff 98%, #fff);
         }
         > div {
             &:first-of-type, &:nth-of-type(2), &:last-of-type, &:nth-last-of-type(2) {
