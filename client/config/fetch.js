@@ -3,11 +3,7 @@
  * @author: suedar(690372513@qq.com)
  * @Date: 2019-11-18 15:12:51
  * @LastEditors: sunchao
-<<<<<<< HEAD
- * @LastEditTime: 2019-11-30 21:24:41
-=======
- * @LastEditTime: 2019-11-21 17:31:54
->>>>>>> 064c60622072a45ef35fae2882fc7faf46dce690
+ * @LastEditTime: 2019-11-30 23:11:07
  */
 
 import { baseUrl } from './env'
@@ -31,21 +27,13 @@ export default async(url = '', data = {}, type = 'GET') => {
     headers.append('content-type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
 
-<<<<<<< HEAD
     let params = {
-=======
-    let param = {
->>>>>>> 064c60622072a45ef35fae2882fc7faf46dce690
         headers,
         method: 'GET'
     };
 
     if (type === 'POST') {
-<<<<<<< HEAD
         params = Object.assign(param, {
-=======
-        param = Object.assign(param, {
->>>>>>> 064c60622072a45ef35fae2882fc7faf46dce690
             method: 'POST',
             body: data
         });
