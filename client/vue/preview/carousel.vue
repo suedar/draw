@@ -3,13 +3,13 @@
         <header>结果</header>
         <div class="content">
             <div class="fast-prev">
-                <<
+                <img src="./../../assets/image/more-left.svg"></img>
             </div>
             <div class="slow-prev">
-                <
+                <img src="./../../assets/image/left.svg"></img>
             </div>
             <div class="display">
-                <ul class="wrapper">
+                <ul class="wrapper" :style="{left: left + 'px'}">
                     <li class="item" v-for="item in content" :key="item.id">
                         <img :src="item.url" :alt="item.createTime">
                         <span>{{item.createTime}}</span>
@@ -17,10 +17,10 @@
                 </ul>
             </div>
             <div class="slow-next">
-                >
+                <img src="./../../assets/image/right.svg"></img>
             </div>
             <div class="fast-next">
-                >>
+                <img src="./../../assets/image/more-right.svg"></img>
             </div>
         </div>
     </div>
@@ -33,10 +33,12 @@ export default {
     data() {
         return {
             params: {
-                pageSize: 30,
-                pageIndex: 0
+                pageSize: 9,
+                pageIndex: 1
             },
-            content: []
+            curIndex: 2,
+            content: [],
+            left: -110
         }
     },
     methods: {
@@ -77,7 +79,10 @@ export default {
             bottom: 0px;
         }
         > div {
-            &:first-of-type, &:nth-of-type(2), &:last-of-type, &:nth-last-of-type(2) {
+            &:not(:nth-of-type(3)) {
+                width: 23px;
+                height: 23px;
+                box-sizing: border-box;
                 text-align: center;
                 margin: 0 5px 22px;
                 font-size: 12px;
@@ -93,15 +98,16 @@ export default {
                     cursor: pointer;
                 }
             }
-            &:nth-of-type(2), &:nth-last-of-type(2) {
-                padding: 3px 7px;
-            }
         }
         .display {
             width: 550px;
+            height: 117px;
             overflow: hidden;
             margin: 0 20px;
+            position: relative;
             .wrapper {
+                position: absolute;
+                left: 0px;
                 display: flex;
                 align-items: center;
                 padding-left: 0px;

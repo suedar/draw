@@ -3,7 +3,7 @@
  * @author: suedar(690372513@qq.com)
  * @Date: 2019-11-18 15:12:51
  * @LastEditors: sunchao
- * @LastEditTime: 2019-11-21 17:31:54
+ * @LastEditTime: 2019-11-30 21:24:41
  */
 
 import { baseUrl } from './env'
@@ -27,13 +27,13 @@ export default async(url = '', data = {}, type = 'GET') => {
     headers.append('content-type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
 
-    let param = {
+    let params = {
         headers,
         method: 'GET'
     };
 
     if (type === 'POST') {
-        param = Object.assign(param, {
+        params = Object.assign(param, {
             method: 'POST',
             body: data
         });
@@ -44,7 +44,7 @@ export default async(url = '', data = {}, type = 'GET') => {
     //     message: [message]
     // }
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, params);
         const responseJson = await response.json();
         if (responseJson.code === 200) {
             return responseJson.data;

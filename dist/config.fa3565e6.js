@@ -8579,7 +8579,7 @@ var _env = require("./env");
  * @author: suedar(690372513@qq.com)
  * @Date: 2019-11-18 15:12:51
  * @LastEditors: sunchao
- * @LastEditTime: 2019-11-21 17:31:54
+ * @LastEditTime: 2019-11-30 21:24:41
  */
 var _default = async (url = '', data = {}, type = 'GET') => {
   type = type.toUpperCase();
@@ -8601,13 +8601,13 @@ var _default = async (url = '', data = {}, type = 'GET') => {
   let headers = new Headers();
   headers.append('content-type', 'application/json');
   headers.append('Access-Control-Allow-Origin', '*');
-  let param = {
+  let params = {
     headers,
     method: 'GET'
   };
 
   if (type === 'POST') {
-    param = Object.assign(param, {
+    params = Object.assign(param, {
       method: 'POST',
       body: data
     });
@@ -8619,7 +8619,7 @@ var _default = async (url = '', data = {}, type = 'GET') => {
 
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, params);
     const responseJson = await response.json();
 
     if (responseJson.code === 200) {
@@ -9155,10 +9155,12 @@ exports.default = {
   data: function () {
     return {
       params: {
-        pageSize: 30,
-        pageIndex: 0
+        pageSize: 9,
+        pageIndex: 1
       },
-      content: []
+      curIndex: 2,
+      content: [],
+      left: -110
     };
   },
   methods: {
@@ -9204,18 +9206,14 @@ exports.default = {
     _c("header", [_vm._v("结果")]),
     _vm._v(" "),
     _c("div", { staticClass: "content" }, [
-      _c("div", { staticClass: "fast-prev" }, [
-        _vm._v("\n            <<\n        ")
-      ]),
+      _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "slow-prev" }, [
-        _vm._v("\n            <\n        ")
-      ]),
+      _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "display" }, [
         _c(
           "ul",
-          { staticClass: "wrapper" },
+          { staticClass: "wrapper", style: { left: _vm.left + "px" } },
           _vm._l(_vm.content, function(item) {
             return _c("li", { key: item.id, staticClass: "item" }, [
               _c("img", { attrs: { src: item.url, alt: item.createTime } }),
@@ -9227,17 +9225,46 @@ exports.default = {
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "slow-next" }, [
-        _vm._v("\n            >\n        ")
-      ]),
+      _vm._m(2),
       _vm._v(" "),
-      _c("div", { staticClass: "fast-next" }, [
-        _vm._v("\n            >>\n        ")
-      ])
+      _vm._m(3)
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "fast-prev" }, [
+      _c("img", { attrs: { src: "/more-left.c3f176bb.svg" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "slow-prev" }, [
+      _c("img", { attrs: { src: "/left.8f129bb2.svg" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "slow-next" }, [
+      _c("img", { attrs: { src: "/right.5a60fdb3.svg" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "fast-next" }, [
+      _c("img", { attrs: { src: "/more-right.e1e1816c.svg" } })
+    ])
+  }
+]
 render._withStripped = true
 
           return {
@@ -9270,7 +9297,7 @@ render._withStripped = true
       
       }
     })();
-},{"../../api/index":"api/index.js","_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"../node_modules/underscore/underscore.js":[function(require,module,exports) {
+},{"../../api/index":"api/index.js","./../../assets/image/more-left.svg":[["more-left.c3f176bb.svg","assets/image/more-left.svg"],"assets/image/more-left.svg"],"./../../assets/image/left.svg":[["left.8f129bb2.svg","assets/image/left.svg"],"assets/image/left.svg"],"./../../assets/image/right.svg":[["right.5a60fdb3.svg","assets/image/right.svg"],"assets/image/right.svg"],"./../../assets/image/more-right.svg":[["more-right.e1e1816c.svg","assets/image/more-right.svg"],"assets/image/more-right.svg"],"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"../node_modules/underscore/underscore.js":[function(require,module,exports) {
 var global = arguments[3];
 var define;
 //     Underscore.js 1.9.1
@@ -11053,9 +11080,8 @@ var _default = {
         x,
         y
       }, item);
-      console.log(obj);
       this.$emit('update:pointMsg', obj);
-    }, 50),
+    }, 20),
 
     onMouseOut() {
       console.log('bye');
@@ -11494,7 +11520,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56629" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57925" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

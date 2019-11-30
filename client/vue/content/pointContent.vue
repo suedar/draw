@@ -63,9 +63,8 @@ export default {
             const obj = Object.assign({
                 x, y
             }, item);
-            console.log(obj)
             this.$emit('update:pointMsg', obj);
-        }, 50),
+        }, 20),
         onMouseOut() {
             console.log('bye');
             this.$emit('update:pointMsg', null);
