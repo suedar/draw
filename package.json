@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/suedar/draw#readme",
   "devDependencies": {
-    "parcel-bundler": "^1.12.3",
-    "node-sass": "4.11.0"
+    "node-sass": "4.11.0",
+    "parcel-bundler": "^1.12.3"
   },
   "dependencies": {
     "@vue/component-compiler-utils": "^3.0.2",
@@ -31,6 +31,8 @@
     "express": "^4.17.1",
     "imap": "^0.8.19",
     "json-server": "^0.15.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
     "libmime": "^4.2.1",
     "mailparser": "^2.7.6",
     "mime-lib": "^0.5.3",

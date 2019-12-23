@@ -15,6 +15,6 @@ const scheduleCronstyle = () => {
 // y: ' y',
 // color: '#ccc'
 getEmail(arr => {
-    console.log(arr)
-})
+    console.log(arr);
+});
 scheduleCronstyle();

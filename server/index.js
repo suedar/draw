@@ -1,12 +1,12 @@
-const express = require('express');
-const app = express();
-app.get('/', function (req, res) {
-    res.send('Hello World!');
-});
+const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
+const app = new Koa();
+app.use(bodyParser());  // 解析request的body
 
-let server = app.listen(3000, function () {
-    // let host = server.address().address;
-    let host = 'localhost';
-    let port = server.address().port;
-    console.log('Your App is running at http://%s:%s', host, port);
-});
+const router = require('koa-router')()
+router.get('/', async (ctx, next) => {
+	// todo
+})
+app.use(router.routes());
+app.listen(9000);
+console.log('app started at port 9000...')
