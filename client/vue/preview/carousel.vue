@@ -52,7 +52,6 @@ export default {
             this.data = res;
         },
         moveWrapper(num: Number, flag: Boolean) {
-            console.log(num, flag)
             if (flag) {
                 return;
             }
@@ -76,7 +75,6 @@ export default {
             const { curIndex, data } = this;
             const flag = curIndex + 1 > data.maxQueryIndex;
             // 遗留setIntervalbug 先写服务器
-            console.log(333)
             setInterval(this.moveWrapper(1, flag), 100);
         }
     },

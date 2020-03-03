@@ -1,12 +1,18 @@
 const Koa = require('koa');
-const bodyParser = require('koa-bodyparser');
 const app = new Koa();
-app.use(bodyParser());  // 解析request的body
+const bodyParser = require('koa-body');
+// import { scheduleCronstyle } from './crawler/schedule';
+// const scheduleCronstyle fro
+// const schedule = require('node-schedule');
+// const { getEmail } = require('./../crawler/getEmail');
 
-const router = require('koa-router')()
-router.get('/', async (ctx, next) => {
-	// todo
-})
-app.use(router.routes());
-app.listen(9000);
-console.log('app started at port 9000...')
+const data = require('./routes/data');
+
+app.use(bodyParser());  // 解析request的body
+app.use(data.routes());
+
+scheduleCronstyle();
+
+app.listen(5000, () => {
+	console.log('Server running at port 5000');
+});

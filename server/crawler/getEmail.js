@@ -37,7 +37,7 @@ function handleStr(msg) {
 function initALl(cb) {
     const imap = new Imap({
         user: 'justfordraw@163.com',
-        password: 'xxxx',
+        password: '******',
         host: 'imap.163.com',
         port: 993,
         tls: true
@@ -51,7 +51,8 @@ function initALl(cb) {
                 if (err) throw err;
                 var f = imap.fetch(results, {
                     bodies: ['HEADER.FIELDS (TO FROM SUBJECT)','TEXT'],
-                    struct: true
+                    struct: true,
+                    markSeen : true
                 });
                 // const file = fs.createWriteStream('newRes.txt', {
                 //     encoding: 'utf8'
